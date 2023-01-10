@@ -11,7 +11,6 @@ const Main = {
   },
 
   bindEvents: function() {
-    
     this.form.onsubmit = this.Events.compoundInterest
   },
 
@@ -23,15 +22,16 @@ const Main = {
       let interest_rate = document.forms['form'].interestrate.value
       let yearsTime = document.forms['form'].yearsTime.value
 
+      monthlyFee = parseFloat(monthlyFee.replace('R$','').replace(' ', ''))
       interest_rate = parseFloat(interest_rate.replace(',' , '.'))/100
-      yearsTime = yearsTime * 12 
+      yearsTime = yearsTime * 12
     
       fetch('https://api.mathjs.org/v4/', {
         method: 'POST',
         headers: {
           'Content-Type':'application/json'
         },
-        body: `{"expr": "${parseFloat(monthlyFee)} * (((1 + ${interest_rate}) ^ ${yearsTime} - 1) / ${interest_rate})"}`
+        body: `{"expr": "${monthlyFee} * (((1 + ${interest_rate}) ^ ${yearsTime} - 1) / ${interest_rate})"}`
       })
       .then(res => res.json().then(data => Main.Events.responsePage(data)))
       .catch( ()=> {console.log('erro')})
