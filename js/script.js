@@ -8,17 +8,21 @@ const Main = {
 
   cacheSelectors: function() {
     this.form = document.querySelector('#form')
+    this.resetButton = document.querySelector('.resetbutton')
   },
 
   bindEvents: function() {
     this.form.onsubmit = this.Events.compoundInterest
+    this.resetButton.onclick = this.Events.resetpage
   },
 
   Events: {
     compoundInterest: function(e) {
       e.preventDefault()
       
+      const firstScreen = document.querySelector('.firstscreen')
       const secondScreen = document.querySelector('.secondscreen')
+      const resetButton = document.querySelector('.resetbutton')
       const name = document.forms['form'].name.value
 
       let monthlyFee = document.forms['form'].monthlyFee.value
@@ -33,25 +37,32 @@ const Main = {
         alert("Algo deu errado, cheque as informações.")
         return
       }
-    
-      fetch('https://api.mathjs.org/v4/', {
-        method: 'POST',
-        headers: {
-          'Content-Type':'application/json'
-        },
-        body: `{"expr": "${RemonthlyFee} * (((1 + ${Reinterest_rate}) ^ ${yearsTime * 12} - 1) / ${Reinterest_rate})"}`
-      })
-      .then(res => res.json().then(data => {
+
+      async function teste() {
+        let res = await fetch('https://api.mathjs.org/v4/', {
+          method: 'POST',
+          headers: {
+            'Content-Type':'application/json'
+          },
+          body: `{"expr": "${RemonthlyFee} * (((1 + ${Reinterest_rate}) ^ ${yearsTime * 12} - 1) / ${Reinterest_rate})"}`
+        })
+        return res.json()
+      }
+
+      teste().then(data => {
         const result = parseFloat(data.result).toFixed(2)
 
         secondScreen.innerHTML = `
         <h2>Cálculo de juros compostos</h2>
-        <p>Olá ${name}, juntando R$ ${monthlyFee} todo mês, você terá R$ ${result} em ${yearsTime} anos.</p>
-        <button>simular novamente</button>
+        <p>Olá ${name}, juntando R$${monthlyFee} todo mês, você terá R$${result} em ${yearsTime} anos.</p>
         `
-        }
-      ))
-      .catch( ()=> {alert('Ocorreu um erro, tente novamente')})
+      }
+      ).then( () => {
+        firstScreen.classList.add('hidden')
+        secondScreen.classList.remove('hidden')
+        resetButton.classList.remove('hidden')
+      })
+      .catch( ()=> {alert('Ocorreu um erro, tente novamente')})      
     },
 
     formValidation: function() {
@@ -60,6 +71,7 @@ const Main = {
       const monthlyFee = document.forms['form'].monthlyFee.value
       const interest_rate = document.forms['form'].interestrate.value
       const yearsTime = document.forms['form'].yearsTime.value
+      let isnum = /^\d+$/.test(yearsTime);
 
       if (name == "" || name == null) {
         return false
@@ -74,8 +86,20 @@ const Main = {
         return false
       }
       return true
+    },
+
+    resetpage: function() {
+      const firstScreen = document.querySelector('.firstscreen')
+      const secondScreen = document.querySelector('.secondscreen')
+      const resetButton = document.querySelector('.resetbutton')
+      const form = document.forms['form']
+
+      
+      firstScreen.classList.remove('hidden')
+      secondScreen.classList.add('hidden')
+      resetButton.classList.add('hidden')
+      form.reset()
     }
-    
   }
 }
 
