@@ -22,7 +22,7 @@ const Main = {
       
       const firstScreen = document.querySelector('.firstscreen')
       const secondScreen = document.querySelector('.secondscreen')
-      const resetButton = document.querySelector('.resetbutton')
+      const resultmsg = document.querySelector('.msg')
       const name = document.forms['form'].name.value
 
       let monthlyFee = document.forms['form'].monthlyFee.value
@@ -52,7 +52,7 @@ const Main = {
       teste().then(data => {
         const result = parseFloat(data.result).toFixed(2)
 
-        secondScreen.innerHTML = `
+        resultmsg.innerHTML = `
         <h2>Cálculo de juros compostos</h2>
         <p>Olá ${name}, juntando R$${monthlyFee} todo mês, você terá R$${result} em ${yearsTime} anos.</p>
         `
@@ -60,7 +60,6 @@ const Main = {
       ).then( () => {
         firstScreen.classList.add('hidden')
         secondScreen.classList.remove('hidden')
-        resetButton.classList.remove('hidden')
       })
       .catch( ()=> {alert('Ocorreu um erro, tente novamente')})      
     },
@@ -71,7 +70,6 @@ const Main = {
       const monthlyFee = document.forms['form'].monthlyFee.value
       const interest_rate = document.forms['form'].interestrate.value
       const yearsTime = document.forms['form'].yearsTime.value
-      let isnum = /^\d+$/.test(yearsTime);
 
       if (name == "" || name == null) {
         return false

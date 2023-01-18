@@ -12,29 +12,35 @@
   <div class="firstscreen">
 
     <h1>Cálculo de juros compostos</h1>
-
+    <h2><span>simulador</span></h2>
+    
     <form id='form'>
-      <label for="name">Nome:</label>
-      <input type="text" id="name" name="name"> <br>
-
-      <label for="monthlyFee">Mensalidade:</label>
-      <input type="text" id="monthlyFee" name="monthlyfee"> <br>
-
-      <label for="interest">Taxa de juros:</label>
-      <input type="text" id="interest" name="interestrate"> <br>
-
-      <label for="yearsTime">Anos de contribuição:</label>
-      <input type="number" id="yearsTime" name="yearsTime"> <br>
-
+      <div class="inputdiv">
+        <label for="name">Nome:</label>
+        <input type="text" id="name" name="name">
+      </div>
+      <div class="inputdiv">
+        <label for="monthlyFee">Mensalidade:</label>
+        <input type="text" id="monthlyFee" name="monthlyfee">
+      </div>
+      <div class="inputdiv">
+        <label for="interest">Taxa de juros:</label>
+        <input type="text" id="interest" name="interestrate">
+      </div>
+      <div class="inputdiv">
+        <label for="yearsTime">Anos de contribuição:</label>
+        <input type="number" id="yearsTime" name="yearsTime">
+      </div>
       <button>Simular</button> 
     </form>
   </div>
 
-  <div class="secondscreen">
-   
-    
+  <div class="secondscreen hidden">
+    <div class="msg">
+    </div>
+    <button class="resetbutton">Simular novamente</button>
   </div>
-  <button class="hidden resetbutton">Simular novamente</button>
+  
 
   <script src="js/script.js"></script>
 </body>
